@@ -19,7 +19,9 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/users/**
-        - id: api
-          uri: http://localhost:8080/api/
+        - id: user-permission
+          uri: http://localhost:8081
           predicates:
-            - Path=/api/**
+            - Path=/reservations
+          filters:
+            - UserAuthFilter

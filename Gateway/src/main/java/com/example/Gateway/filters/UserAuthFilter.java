@@ -21,6 +21,10 @@ public class UserAuthFilter extends AbstractGatewayFilterFactory<UserAuthFilter.
     SignatureAlgorithm sa = SignatureAlgorithm.HS256;
     SecretKeySpec secretKeySpec = new SecretKeySpec(Values.SECRET_KEY.getBytes(), sa.getJcaName());
 
+    public UserAuthFilter() {
+        super(Config.class);
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
@@ -29,7 +33,7 @@ public class UserAuthFilter extends AbstractGatewayFilterFactory<UserAuthFilter.
             try {
                 String bearerToken = authorization.get(0);
 
-                Claims tokenClaims = Jwts.parserBuilder().setSigningKey(secretKeySpec).build().parseClaimsJws(bearerToken).getBody();
+                Claims tokenClaims = Jwts.parserBuilder().setSigningKey(secretKeySpec).build().parseClaimsJws(bearerToken.split(" ")[1]).getBody();
                 
 
                 List<String> roles = (List<String>) tokenClaims.get("roles");
