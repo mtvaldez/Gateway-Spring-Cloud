@@ -1,5 +1,6 @@
 package com.example.Gateway.filters;
 
+import com.example.Gateway.ForbiddenException;
 import com.example.Gateway.Values;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -38,16 +39,13 @@ public class UserAuthFilter extends AbstractGatewayFilterFactory<UserAuthFilter.
 
                 List<String> roles = (List<String>) tokenClaims.get("roles");
                 if (!roles.contains(ROL)) {
-                    exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                    throw new RuntimeException("Unauthorized call");
+                    throw new ForbiddenException("Unauthorized call");
                 }
 
             } catch (NullPointerException e) {
-                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                throw new RuntimeException("No token found");
+                throw new ForbiddenException("No token found");
             } catch (ClassCastException castException) {
-                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                throw new RuntimeException("Something is wrong with the token");
+                throw new ForbiddenException("Something is wrong with the token");
             }
 
             return chain.filter(exchange);
