@@ -35,3 +35,7 @@ spring:
             - Path=/reservations
           filters:
             UserAuthFilter
+        - id: resources
+          uri: http://localhost:8082
+          predicates:
+            - Path=/resources/**
