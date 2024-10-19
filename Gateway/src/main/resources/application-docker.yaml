@@ -17,14 +17,60 @@ spring:
         - id: company
           uri: http://reservation:8082
           predicates:
-            - Path=/companies
+            - Path=/companies/**
         - id: reservation
           uri: http://reservation:8082
           predicates:
-            - Path=/reservations
+            - Path=/reservations/**
+            - Method=POST
           filters:
             UserAuthFilter
-        - id: resources
+        - id: reservationAdmin
+          uri: http://reservation:8082
+          predicates:
+            - Path=/reservations/**
+            - Method=GET
+          filters:
+            AdminAuthFilter
+        - id: resourcesAdmin
           uri: http://reservation:8082
           predicates:
             - Path=/resources/**
+            - Method=POST
+          filters:
+            AdminAuthFilter
+        - id: resourcesUser
+          uri: http://reservation:8082
+          predicates:
+            - Path=/resources/**
+            - Method=GET
+          filters:
+            UserAuthFilter
+        - id: tagsAdmin
+          uri: http://reservation:8082
+          predicates:
+            - Path=/tags/**
+            - Method=POST,DELETE
+          filters:
+            AdminAuthFilter
+        - id: tagsUser
+          uri: http://reservation:8082
+          predicates:
+            - Path=/tags/**
+            - Method=GET
+          filters:
+            UserAuthFilter
+        - id: reportUser
+          uri: http://reservation:8082
+          predicates:
+            - Path=/reports/**
+            - Method=POST
+          filters:
+            UserAuthFilter
+        - id: reportAdmin
+          uri: http://reservation:8082
+          predicates:
+            - Path=/reports/**
+            - Method=GET
+          filters:
+            AdminAuthFilter
