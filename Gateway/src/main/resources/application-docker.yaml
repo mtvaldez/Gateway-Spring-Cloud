@@ -20,24 +20,10 @@ spring:
           predicates:
             - Path=/companies/**
 
-        - id: reservation
-          uri: http://reservation:8082
-          predicates:
-            - Path=/reservations
-          filters:
-            UserAuthFilter
-
         - id: reservationAdmin
           uri: http://reservation:8082
           predicates:
             - Path=/reservations/**
-          filters:
-            AdminAuthFilter
-
-        - id: resourcesUser
-          uri: http://reservation:8082
-          predicates:
-            - Path=/resources/available/**
           filters:
             UserAuthFilter
 
@@ -46,7 +32,7 @@ spring:
           predicates:
             - Path=/resources/**
           filters:
-            AdminAuthFilter
+            UserAuthFilter
 
         - id: tagsAdmin
           uri: http://reservation:8082
